@@ -1,0 +1,32 @@
+# Instalação do pacote remotes para pacotes GitHub
+install.packages("remotes")
+
+# Instalação do microdatasus via GitHub
+remotes::install_github("rfsaldanha/microdatasus")
+
+# Carregar o pacote
+library(microdatasus)
+
+# Coleta dos dados do SIH-RD para o DF, de janeiro de 2017 a dezembro de 2022, selecionando variáveis específicas
+dados_01 <- fetch_datasus(
+  year_start = 2017, 
+  month_start = 1, 
+  year_end = 2022, 
+  month_end = 12, 
+  uf = "DF", 
+  information_system = "SIH-RD", 
+  vars = c(
+    "ANO_CMPT", "MES_CMPT", "ESPEC", "CGC_HOSP", "N_AIH", 
+    "IDENT", "CEP", "MUNIC_RES", "NASC", "SEXO", 
+    "PROC_SOLIC", "PROC_REA", "DIAG_PRINC", "DIAG_SECUN", 
+    "COD_IDADE", "IDADE", "DIAS_PERM", "MORTE", 
+    "CID_NOTIF", "CNES", "CID_ASSO", "CID_MORTE", 
+    "RACA_COR", "ETNIA", "MARCA_UTI", "CAR_INT", "INSTRU"
+  )
+)
+
+# Exportar os dados para um arquivo CSV
+write.csv(dados_01, "dados_SIH_RD_DF_2017_2022.csv", row.names = FALSE)
+
+# Mensagem de confirmação
+cat("Dados exportados com sucesso para dados_SIH_RD_DF_2017_2022.csv")
